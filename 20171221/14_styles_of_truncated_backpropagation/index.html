@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.5.0">
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.5.0',
+    sidebar: {"position":"left","display":"delay_hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+<!-- Chatra {literal} -->
+
+<!-- /Chatra {/literal} -->
+
+
+  <div style="position: fixed; bottom: 25px; right: -7px; z-index: 9999;">
+    <button class="btn-chat" id="load-daovoice" onclick="mydaovoice.load();">
+        <i class="menu-item-icon fa fa-fw fa-commenting"></i>
+    </button>
+  </div>
+  <script>
+    var mydaovoice = {
+      load : function mydaovoice() {
+        (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+        daovoice('init', {
+          app_id: "e98a641a"
+        });
+        daovoice('update');
+        $('#load-daovoice').remove();
+      }
+    }
+  </script>
+
+
+  <meta name="description" content="本文GitHub地址博客地址原文Styles of Truncated Backpropagation翻译带个人理解，建议啃原文">
+<meta name="keywords" content="DL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】不同的截断反向传播">
+<meta property="og:url" content="https://www.zydarchen.top/20171221/14_styles_of_truncated_backpropagation/index.html">
+<meta property="og:site_name" content="沐雨浥尘">
+<meta property="og:description" content="本文GitHub地址博客地址原文Styles of Truncated Backpropagation翻译带个人理解，建议啃原文">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://pic.zydarchen.top/14_rnn_true_truncated_backprop.png">
+<meta property="og:image" content="https://pic.zydarchen.top/14_rnn_tf_truncated_backprop.png">
+<meta property="og:image" content="https://www.zydarchen.top/image/14_rnn_output_19_1.png">
+<meta property="og:updated_time" content="2019-04-18T10:36:20.784Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】不同的截断反向传播">
+<meta name="twitter:description" content="本文GitHub地址博客地址原文Styles of Truncated Backpropagation翻译带个人理解，建议啃原文">
+<meta name="twitter:image" content="https://pic.zydarchen.top/14_rnn_true_truncated_backprop.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://www.zydarchen.top/20171221/14_styles_of_truncated_backpropagation/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>【译】不同的截断反向传播 | 沐雨浥尘</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0d220dbb27eaa2772792766710716ded";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">沐雨浥尘</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">沐雨浥尘</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>目录</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+  
+
+  
+
+    <a href="https://github.com/zydarchen" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.zydarchen.top/20171221/14_styles_of_truncated_backpropagation/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zydarChen">
+      <meta itemprop="description" content="平淡无奇、追海贼、爱艺青的写代码少年">
+      <meta itemprop="image" content="/images/dandan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="沐雨浥尘">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">【译】不同的截断反向传播
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-12-21 22:00:17" itemprop="dateCreated datePublished" datetime="2017-12-21T22:00:17+08:00">2017-12-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-18 18:36:20" itemprop="dateModified" datetime="2019-04-18T18:36:20+08:00">2019-04-18</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/20171221/14_styles_of_truncated_backpropagation/" class="leancloud_visitors" data-flag-title="【译】不同的截断反向传播">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-tag"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">17k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">15 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文<a href="https://github.com/zydarChen/MLnote/tree/master/LSTM/BPTT" target="_blank" rel="noopener">GitHub地址</a><br><a href="http://www.zydarchen.top/20171221/Styles-of-Truncated-Backpropagation">博客地址</a><br>原文<a href="https://r2rt.com/styles-of-truncated-backpropagation.html" target="_blank" rel="noopener">Styles of Truncated Backpropagation</a><br>翻译带个人理解，建议啃原文</p>
+<a id="more"></a>
+<p>笔者在之前的博文<a href="https://r2rt.com/recurrent-neural-networks-in-tensorflow-i.html" target="_blank" rel="noopener">Recurrent Neural Networks in Tensorflow</a>中观察到，TensorFlow的截断反向传播方式与“误差最多反向传播n steps”不同。笔者将在这篇博文中基于TensorFlow实现不同的截断反向传播算法，并研究哪种方法更好。</p>
+<p>结论是：</p>
+<ul>
+<li>一个实现得很好、均匀分布的截断反向传播算法与全反向传播（full backpropagation）算法在运行速度上相近，而全反向传播算法在性能上稍微好一点。</li>
+<li>初步实验表明，n-step Tensorflow-style 反向传播（with num_step=n）并不能有效地反向传播整个n steps误差。因此，如果使用Tensorflow-style 截断反向传播并且需要捕捉n-step依赖关系，则可以使用明显高于n的num_step<br>以便于有效地将误差反向传播所需的n steps。</li>
+</ul>
+<h2 id="Differences-in-styles-of-truncated-backpropagation"><a href="#Differences-in-styles-of-truncated-backpropagation" class="headerlink" title="Differences in styles of truncated backpropagation"></a>Differences in styles of truncated backpropagation</h2><p>假设要训练一个RNN，训练集为长度10,000的序列。如果我们使用非截断反向传播，那么整个序列会一次性地喂给网络，在时刻10,000的误差会一直传递到时刻1。这会导致两个问题：</p>
+<ol>
+<li>误差反向传播这么多步的计算开销大</li>
+<li>由于梯度消失，反向传播误差逐层变小，使得进一步的反向传播不再重要</li>
+</ol>
+<p>可以使用“截断”反向传播解决这个问题，Ilya Sutskever博士<a href="http://202.38.196.91/cache/6/03/www.cs.utoronto.ca/96b2e707823b366dbfe710eeeedf95b3/ilya_sutskever_phd_thesis.pdf" target="_blank" rel="noopener">这篇</a>文章的2.8.6节有一个对截断反向传播很好的描述：</p>
+<blockquote>
+<p>“[Truncated backpropagation] processes the sequence one timestep at a time, and every k1 timesteps, it runs BPTT for k2 timesteps…”</p>
+</blockquote>
+<p>Tensorflow-style反向传播使用<code>k1=k2(=num_steps)</code>（详情请参阅<a href="https://www.tensorflow.org/tutorials/recurrent#truncated-backpropagation" target="_blank" rel="noopener">Tensorflow Api</a>）。本文提出的问题是：<code>k1=1</code>能否得到一个更好的结果。本文认为，“真”截断反向传播是：每次反向传播k2 steps都是传播了整个k2 steps。</p>
+<p>举个例子解释这两种方法的不同。序列长度为49，反向传播截断为7 steps。相同的是，每个误差都会反向传播7 steps。但是，对于Tensorflow-style截断反向传播，序列会被切分成长度为7的7个子序列，并且只有7个误差被反向传播了7 steps。而对于“真”截断反向传播而言，42个误差能被反向传播7 steps就应该42个都反向传播7 steps。这就产生了不同，因为使用7-steps与1-steps更新权重明显不同。</p>
+<p>为了可视化差异，下图表示的是序列长度为6，误差反向传播3 steps：</p>
+<p><img src="https://pic.zydarchen.top/14_rnn_true_truncated_backprop.png" alt="RNN_true_truncated_backprop.png"></p>
+<p>下图是Tensorflow-style截断反向传播在同一序列上的情况：</p>
+<p><img src="https://pic.zydarchen.top/14_rnn_tf_truncated_backprop.png" alt="RNN_tf_truncated_backprop.png"></p>
+<h2 id="实验设计"><a href="#实验设计" class="headerlink" title="实验设计"></a>实验设计</h2><p>为了比较两种算法的性能，笔者实现了一个“真”截断反向传播算法，并与vanilla-RNN比较结果。vanilla-RNN是笔者在先前的博文<a href="https://r2rt.com/recurrent-neural-networks-in-tensorflow-i.html" target="_blank" rel="noopener">Recurrent Neural Networks in Tensorflow I</a>中使用的模型。不同的是，先前的网络在toy数据集上学习简单模式非常快，而本次提升了任务和模型的复杂性。这次任务是对ptb数据集进行语言建模，在基本的RNN模型中添加了一个embedding层和dropout层用以匹配任务的复杂性。</p>
+<p>实验比较了每个算法20 epochs训练后验证集上的最佳性能，使用的是Adam Optimizer（初步实验它比其他Optimizer好），学习率设置为0.003，0.001和0.0003。</p>
+<ul>
+<li>5-step truncated backpropagation<ul>
+<li>True, sequences of length 20</li>
+<li>TF-style</li>
+</ul>
+</li>
+<li>10-step truncated backpropagation<ul>
+<li>True, sequences of length 30</li>
+<li>TF-style</li>
+</ul>
+</li>
+<li>20-step truncated backpropagation<ul>
+<li>True, sequences of length 40</li>
+<li>TF-style</li>
+</ul>
+</li>
+<li>40-step truncated backpropagation<ul>
+<li>TF-style</li>
+</ul>
+</li>
+</ul>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="Imports-and-data-generators"><a href="#Imports-and-data-generators" class="headerlink" title="Imports and data generators"></a>Imports and data generators</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">%matplotlib inline</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> tensorflow.models.rnn.ptb <span class="keyword">import</span> reader</span><br><span class="line"></span><br><span class="line"><span class="comment">#data from http://www.fit.vutbr.cz/~imikolov/rnnlm/simple-examples.tgz</span></span><br><span class="line">raw_data = reader.ptb_raw_data(<span class="string">'ptb_data'</span>)</span><br><span class="line">train_data, val_data, test_data, num_classes = raw_data</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_epochs</span><span class="params">(n, num_steps, batch_size)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="keyword">yield</span> reader.ptb_iterator(train_data, batch_size, num_steps)</span><br></pre></td></tr></table></figure>
+<h3 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_graph</span><span class="params">(num_steps,</span></span></span><br><span class="line"><span class="function"><span class="params">            bptt_steps = <span class="number">4</span>, batch_size = <span class="number">200</span>, num_classes = num_classes,</span></span></span><br><span class="line"><span class="function"><span class="params">            state_size = <span class="number">4</span>, embed_size = <span class="number">50</span>, learning_rate = <span class="number">0.01</span>)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Builds graph for a simple RNN</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Notable parameters:</span></span><br><span class="line"><span class="string">    num_steps: sequence length / steps for TF-style truncated backprop</span></span><br><span class="line"><span class="string">    bptt_steps: number of steps for true truncated backprop</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    g = tf.get_default_graph()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># placeholders</span></span><br><span class="line">    x = tf.placeholder(tf.int32, [batch_size, <span class="keyword">None</span>], name=<span class="string">'input_placeholder'</span>)</span><br><span class="line">    y = tf.placeholder(tf.int32, [batch_size, <span class="keyword">None</span>], name=<span class="string">'labels_placeholder'</span>)</span><br><span class="line">    default_init_state = tf.zeros([batch_size, state_size])</span><br><span class="line">    init_state = tf.placeholder_with_default(default_init_state,</span><br><span class="line">                                             [batch_size, state_size], name=<span class="string">'state_placeholder'</span>)</span><br><span class="line">    dropout = tf.placeholder(tf.float32, [], name=<span class="string">'dropout_placeholder'</span>)</span><br><span class="line"></span><br><span class="line">    x_one_hot = tf.one_hot(x, num_classes)</span><br><span class="line">    x_as_list = [tf.squeeze(i, squeeze_dims=[<span class="number">1</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> tf.split(<span class="number">1</span>, num_steps, x_one_hot)]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> tf.variable_scope(<span class="string">'embeddings'</span>):</span><br><span class="line">        embeddings = tf.get_variable(<span class="string">'embedding_matrix'</span>, [num_classes, embed_size])</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">embedding_lookup</span><span class="params">(one_hot_input)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'embeddings'</span>, reuse=<span class="keyword">True</span>):</span><br><span class="line">            embeddings = tf.get_variable(<span class="string">'embedding_matrix'</span>, [num_classes, embed_size])</span><br><span class="line">            embeddings = tf.identity(embeddings)</span><br><span class="line">            g.add_to_collection(<span class="string">'embeddings'</span>, embeddings)</span><br><span class="line">            <span class="keyword">return</span> tf.matmul(one_hot_input, embeddings)</span><br><span class="line"></span><br><span class="line">    rnn_inputs = [embedding_lookup(i) <span class="keyword">for</span> i <span class="keyword">in</span> x_as_list]</span><br><span class="line"></span><br><span class="line">    <span class="comment">#apply dropout to inputs</span></span><br><span class="line">    rnn_inputs = [tf.nn.dropout(x, dropout) <span class="keyword">for</span> x <span class="keyword">in</span> rnn_inputs]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># rnn_cells</span></span><br><span class="line">    <span class="keyword">with</span> tf.variable_scope(<span class="string">'rnn_cell'</span>):</span><br><span class="line">        W = tf.get_variable(<span class="string">'W'</span>, [embed_size + state_size, state_size])</span><br><span class="line">        b = tf.get_variable(<span class="string">'b'</span>, [state_size], initializer=tf.constant_initializer(<span class="number">0.0</span>))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">rnn_cell</span><span class="params">(rnn_input, state)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> tf.variable_scope(<span class="string">'rnn_cell'</span>, reuse=<span class="keyword">True</span>):</span><br><span class="line"></span><br><span class="line">            W = tf.get_variable(<span class="string">'W'</span>, [embed_size + state_size, state_size])</span><br><span class="line">            W = tf.identity(W)</span><br><span class="line">            g.add_to_collection(<span class="string">'Ws'</span>, W)</span><br><span class="line"></span><br><span class="line">            b = tf.get_variable(<span class="string">'b'</span>, [state_size], initializer=tf.constant_initializer(<span class="number">0.0</span>))</span><br><span class="line">            b = tf.identity(b)</span><br><span class="line">            g.add_to_collection(<span class="string">'bs'</span>, b)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> tf.tanh(tf.matmul(tf.concat(<span class="number">1</span>, [rnn_input, state]), W) + b)</span><br><span class="line"></span><br><span class="line">    state = init_state</span><br><span class="line">    rnn_outputs = []</span><br><span class="line">    <span class="keyword">for</span> rnn_input <span class="keyword">in</span> rnn_inputs:</span><br><span class="line">        state = rnn_cell(rnn_input, state)</span><br><span class="line">        rnn_outputs.append(state)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#apply dropout to outputs</span></span><br><span class="line">    rnn_outputs = [tf.nn.dropout(x, dropout) <span class="keyword">for</span> x <span class="keyword">in</span> rnn_outputs]</span><br><span class="line"></span><br><span class="line">    final_state = rnn_outputs[<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment">#logits and predictions</span></span><br><span class="line">    <span class="keyword">with</span> tf.variable_scope(<span class="string">'softmax'</span>):</span><br><span class="line">        W = tf.get_variable(<span class="string">'W_softmax'</span>, [state_size, num_classes])</span><br><span class="line">        b = tf.get_variable(<span class="string">'b_softmax'</span>, [num_classes], initializer=tf.constant_initializer(<span class="number">0.0</span>))</span><br><span class="line">    logits = [tf.matmul(rnn_output, W) + b <span class="keyword">for</span> rnn_output <span class="keyword">in</span> rnn_outputs]</span><br><span class="line">    predictions = [tf.nn.softmax(logit) <span class="keyword">for</span> logit <span class="keyword">in</span> logits]</span><br><span class="line"></span><br><span class="line">    <span class="comment">#losses</span></span><br><span class="line">    y_as_list = [tf.squeeze(i, squeeze_dims=[<span class="number">1</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> tf.split(<span class="number">1</span>, num_steps, y)]</span><br><span class="line">    losses = [tf.nn.sparse_softmax_cross_entropy_with_logits(logit,label) \</span><br><span class="line">              <span class="keyword">for</span> logit, label <span class="keyword">in</span> zip(logits, y_as_list)]</span><br><span class="line">    total_loss = tf.reduce_mean(losses)</span><br><span class="line"></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Implementation of true truncated backprop using TF's high-level gradients function.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Because I add gradient-ops for each error, this are a number of duplicate operations,</span></span><br><span class="line"><span class="string">    making this a slow implementation. It would be considerably more effort to write an</span></span><br><span class="line"><span class="string">    efficient implementation, however, so for testing purposes, it's OK that this goes slow.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    An efficient implementation would still require all of the same operations as the full</span></span><br><span class="line"><span class="string">    backpropagation through time of errors in a sequence, and so any advantage would not come</span></span><br><span class="line"><span class="string">    from speed, but from having a better distribution of backpropagated errors.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    embed_by_step = g.get_collection(<span class="string">'embeddings'</span>)</span><br><span class="line">    Ws_by_step = g.get_collection(<span class="string">'Ws'</span>)</span><br><span class="line">    bs_by_step = g.get_collection(<span class="string">'bs'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Collect gradients for each step in a list</span></span><br><span class="line">    embed_grads = []</span><br><span class="line">    W_grads = []</span><br><span class="line">    b_grads = []</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Keeping track of vanishing gradients for my own curiousity</span></span><br><span class="line">    vanishing_grad_list = []</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Loop through the errors, and backpropagate them to the relevant nodes</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(num_steps):</span><br><span class="line">        start = max(<span class="number">0</span>,i+<span class="number">1</span>-bptt_steps)</span><br><span class="line">        stop = i+<span class="number">1</span></span><br><span class="line">        grad_list = tf.gradients(losses[i],</span><br><span class="line">                                 embed_by_step[start:stop] +\</span><br><span class="line">                                 Ws_by_step[start:stop] +\</span><br><span class="line">                                 bs_by_step[start:stop])</span><br><span class="line">        embed_grads += grad_list[<span class="number">0</span> : stop - start]</span><br><span class="line">        W_grads += grad_list[stop - start : <span class="number">2</span> * (stop - start)]</span><br><span class="line">        b_grads += grad_list[<span class="number">2</span> * (stop - start) : ]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> i &gt;= bptt_steps:</span><br><span class="line">            vanishing_grad_list.append(grad_list[stop - start : <span class="number">2</span> * (stop - start)])</span><br><span class="line"></span><br><span class="line">    grad_embed = tf.add_n(embed_grads) / (batch_size * bptt_steps)</span><br><span class="line">    grad_W = tf.add_n(W_grads) / (batch_size * bptt_steps)</span><br><span class="line">    grad_b = tf.add_n(b_grads) / (batch_size * bptt_steps)</span><br><span class="line"></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Training steps</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    opt = tf.train.AdamOptimizer(learning_rate)</span><br><span class="line">    grads_and_vars_tf_style = opt.compute_gradients(total_loss, tf.trainable_variables())</span><br><span class="line">    grads_and_vars_true_bptt = \</span><br><span class="line">        [(grad_embed, tf.trainable_variables()[<span class="number">0</span>]),</span><br><span class="line">         (grad_W, tf.trainable_variables()[<span class="number">1</span>]),</span><br><span class="line">         (grad_b, tf.trainable_variables()[<span class="number">2</span>])] + \</span><br><span class="line">        opt.compute_gradients(total_loss, tf.trainable_variables()[<span class="number">3</span>:])</span><br><span class="line">    train_tf_style = opt.apply_gradients(grads_and_vars_tf_style)</span><br><span class="line">    train_true_bptt = opt.apply_gradients(grads_and_vars_true_bptt)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dict(</span><br><span class="line">        train_tf_style = train_tf_style,</span><br><span class="line">        train_true_bptt = train_true_bptt,</span><br><span class="line">        gvs_tf_style = grads_and_vars_tf_style,</span><br><span class="line">        gvs_true_bptt = grads_and_vars_true_bptt,</span><br><span class="line">        gvs_gradient_check = opt.compute_gradients(losses[<span class="number">-1</span>], tf.trainable_variables()),</span><br><span class="line">        loss = total_loss,</span><br><span class="line">        final_state = final_state,</span><br><span class="line">        x=x,</span><br><span class="line">        y=y,</span><br><span class="line">        init_state=init_state,</span><br><span class="line">        dropout=dropout,</span><br><span class="line">        vanishing_grads=vanishing_grad_list</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<h2 id="Some-quick-tests"><a href="#Some-quick-tests" class="headerlink" title="Some quick tests"></a>Some quick tests</h2><h3 id="速度测试"><a href="#速度测试" class="headerlink" title="速度测试"></a>速度测试</h3><p>不出所料，由于执行了重复操作，实现的真BPTT速度很慢。一个有效的实现运行速度将与全反向传播大致相同。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">reset_graph()</span><br><span class="line">g = build_graph(num_steps = <span class="number">40</span>, bptt_steps = <span class="number">20</span>)</span><br><span class="line">sess = tf.InteractiveSession()</span><br><span class="line">sess.run(tf.initialize_all_variables())</span><br><span class="line"></span><br><span class="line">X, Y = next(reader.ptb_iterator(train_data, batch_size=<span class="number">200</span>, num_steps=<span class="number">40</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%%timeit</span><br><span class="line">gvs_bptt = sess.run(g[<span class="string">'gvs_true_bptt'</span>], feed_dict=&#123;g[<span class="string">'x'</span>]:X, g[<span class="string">'y'</span>]:Y, g[<span class="string">'dropout'</span>]: <span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
+<pre><code>10 loops, best of 3: 173 ms per loop
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%%timeit</span><br><span class="line">gvs_tf = sess.run(g[<span class="string">'gvs_tf_style'</span>], feed_dict=&#123;g[<span class="string">'x'</span>]:X, g[<span class="string">'y'</span>]:Y, g[<span class="string">'dropout'</span>]: <span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
+<pre><code>10 loops, best of 3: 80.2 ms per loop
+</code></pre><h3 id="梯度消失演示"><a href="#梯度消失演示" class="headerlink" title="梯度消失演示"></a>梯度消失演示</h3><p>为了演示梯度消失问题，收集以下信息。如你所见，梯度很快就会消失，每一步都会减少3-4倍。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vanishing_grads, gvs = sess.run([g[<span class="string">'vanishing_grads'</span>], g[<span class="string">'gvs_true_bptt'</span>]],</span><br><span class="line">                                feed_dict=&#123;g[<span class="string">'x'</span>]:X, g[<span class="string">'y'</span>]:Y, g[<span class="string">'dropout'</span>]: <span class="number">1</span>&#125;)</span><br><span class="line">vanishing_grads = np.array(vanishing_grads)</span><br><span class="line">weights = gvs[<span class="number">1</span>][<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># sum all the grads from each loss node</span></span><br><span class="line">vanishing_grads = np.sum(vanishing_grads, axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># now calculate the l1 norm at each bptt step</span></span><br><span class="line">vanishing_grads = np.sum(np.sum(np.abs(vanishing_grads),axis=<span class="number">1</span>),axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">vanishing_grads</span><br></pre></td></tr></table></figure>
+<pre><code>array([  5.28676978e-08,   1.51207473e-07,   4.04591049e-07,
+         1.55859300e-06,   5.00411124e-06,   1.32292716e-05,
+         3.94736344e-05,   1.17605050e-04,   3.37805774e-04,
+         1.01710076e-03,   2.74375151e-03,   8.92040879e-03,
+         2.23708227e-02,   7.23497868e-02,   2.45202959e-01,
+         7.39126682e-01,   2.19093657e+00,   6.16793633e+00,
+         2.27248211e+01,   9.78200531e+01], dtype=float32)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(vanishing_grads) - <span class="number">1</span>):</span><br><span class="line">    print(vanishing_grads[i+<span class="number">1</span>] / vanishing_grads[i])</span><br></pre></td></tr></table></figure>
+<pre><code>2.86011
+2.67573
+3.85227
+3.21066
+2.64368
+2.98381
+2.97933
+2.87237
+3.0109
+2.69762
+3.25117
+2.50782
+3.23411
+3.38913
+3.01435
+2.96422
+2.81521
+3.68435
+4.30455
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(vanishing_grads)</span><br></pre></td></tr></table></figure>
+<p><img src="/image/14_rnn_output_19_1.png" alt="RNN_output_19_1.png"></p>
+<h3 id="Quick-accuracy-test"><a href="#Quick-accuracy-test" class="headerlink" title="Quick accuracy test"></a>Quick accuracy test</h3><p>一个完整检查，以确保真截断反向传播算法运行正确。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># first test using bptt_steps &gt;= num_steps</span></span><br><span class="line"></span><br><span class="line">reset_graph()</span><br><span class="line">g = build_graph(num_steps = <span class="number">7</span>, bptt_steps = <span class="number">7</span>)</span><br><span class="line">X, Y = next(reader.ptb_iterator(train_data, batch_size=<span class="number">200</span>, num_steps=<span class="number">7</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(tf.initialize_all_variables())</span><br><span class="line">    gvs_bptt, gvs_tf =\</span><br><span class="line">        sess.run([g[<span class="string">'gvs_true_bptt'</span>],g[<span class="string">'gvs_tf_style'</span>]],</span><br><span class="line">                                feed_dict=&#123;g[<span class="string">'x'</span>]:X, g[<span class="string">'y'</span>]:Y, g[<span class="string">'dropout'</span>]: <span class="number">0.8</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># assert embedding gradients are the same</span></span><br><span class="line"><span class="keyword">assert</span>(np.max(gvs_bptt[<span class="number">0</span>][<span class="number">0</span>] - gvs_tf[<span class="number">0</span>][<span class="number">0</span>]) &lt; <span class="number">1e-4</span>)</span><br><span class="line"><span class="comment"># assert weight gradients are the same</span></span><br><span class="line"><span class="keyword">assert</span>(np.max(gvs_bptt[<span class="number">1</span>][<span class="number">0</span>] - gvs_tf[<span class="number">1</span>][<span class="number">0</span>]) &lt; <span class="number">1e-4</span>)</span><br><span class="line"><span class="comment"># assert bias gradients are the same</span></span><br><span class="line"><span class="keyword">assert</span>(np.max(gvs_bptt[<span class="number">2</span>][<span class="number">0</span>] - gvs_tf[<span class="number">2</span>][<span class="number">0</span>]) &lt; <span class="number">1e-4</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Train the network</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_network</span><span class="params">(num_epochs,</span></span></span><br><span class="line"><span class="function"><span class="params">                  num_steps,</span></span></span><br><span class="line"><span class="function"><span class="params">                  use_true_bptt,</span></span></span><br><span class="line"><span class="function"><span class="params">                  batch_size = <span class="number">200</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                  bptt_steps = <span class="number">7</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                  state_size = <span class="number">4</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                  learning_rate = <span class="number">0.01</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                  dropout = <span class="number">0.8</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                  verbose = True)</span>:</span></span><br><span class="line"></span><br><span class="line">    reset_graph()</span><br><span class="line">    tf.set_random_seed(<span class="number">1234</span>)</span><br><span class="line">    g = build_graph(num_steps = num_steps,</span><br><span class="line">                    bptt_steps = bptt_steps,</span><br><span class="line">                    state_size = state_size,</span><br><span class="line">                    batch_size = batch_size,</span><br><span class="line">                   learning_rate = learning_rate)</span><br><span class="line">    <span class="keyword">if</span> use_true_bptt:</span><br><span class="line">        train_step = g[<span class="string">'train_true_bptt'</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        train_step = g[<span class="string">'train_tf_style'</span>]</span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">        sess.run(tf.initialize_all_variables())</span><br><span class="line">        training_losses = []</span><br><span class="line">        val_losses = []</span><br><span class="line">        <span class="keyword">for</span> idx, epoch <span class="keyword">in</span> enumerate(gen_epochs(num_epochs, num_steps, batch_size)):</span><br><span class="line">            training_loss = <span class="number">0</span></span><br><span class="line">            steps = <span class="number">0</span></span><br><span class="line">            training_state = np.zeros((batch_size, state_size))</span><br><span class="line">            <span class="keyword">for</span> X, Y <span class="keyword">in</span> epoch:</span><br><span class="line">                steps += <span class="number">1</span></span><br><span class="line">                training_loss_, training_state, _ = sess.run([g[<span class="string">'loss'</span>],</span><br><span class="line">                                                      g[<span class="string">'final_state'</span>],</span><br><span class="line">                                                      train_step],</span><br><span class="line">                                                  feed_dict=&#123;g[<span class="string">'x'</span>]: X,</span><br><span class="line">                                                             g[<span class="string">'y'</span>]: Y,</span><br><span class="line">                                                             g[<span class="string">'dropout'</span>]: dropout,</span><br><span class="line">                                                             g[<span class="string">'init_state'</span>]: training_state&#125;)</span><br><span class="line">                training_loss += training_loss_</span><br><span class="line">            <span class="keyword">if</span> verbose:</span><br><span class="line">                print(<span class="string">"Average training loss for Epoch"</span>, idx, <span class="string">":"</span>, training_loss/steps)</span><br><span class="line">            training_losses.append(training_loss/steps)</span><br><span class="line"></span><br><span class="line">            val_loss = <span class="number">0</span></span><br><span class="line">            steps = <span class="number">0</span></span><br><span class="line">            training_state = np.zeros((batch_size, state_size))</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> X,Y <span class="keyword">in</span> reader.ptb_iterator(val_data, batch_size, num_steps):</span><br><span class="line">                steps += <span class="number">1</span></span><br><span class="line">                val_loss_, training_state = sess.run([g[<span class="string">'loss'</span>],</span><br><span class="line">                                                      g[<span class="string">'final_state'</span>]],</span><br><span class="line">                                                  feed_dict=&#123;g[<span class="string">'x'</span>]: X,</span><br><span class="line">                                                             g[<span class="string">'y'</span>]: Y,</span><br><span class="line">                                                             g[<span class="string">'dropout'</span>]: <span class="number">1</span>,</span><br><span class="line">                                                             g[<span class="string">'init_state'</span>]: training_state&#125;)</span><br><span class="line">                val_loss += val_loss_</span><br><span class="line">            <span class="keyword">if</span> verbose:</span><br><span class="line">                print(<span class="string">"Average validation loss for Epoch"</span>, idx, <span class="string">":"</span>, val_loss/steps)</span><br><span class="line">                print(<span class="string">"***"</span>)</span><br><span class="line">            val_losses.append(val_loss/steps)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> training_losses, val_losses</span><br></pre></td></tr></table></figure>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Procedure to collect results</span></span><br><span class="line"><span class="comment"># Note: this takes a few hours to run</span></span><br><span class="line"></span><br><span class="line">bptt_steps = [(<span class="number">5</span>,<span class="number">20</span>), (<span class="number">10</span>,<span class="number">30</span>), (<span class="number">20</span>,<span class="number">40</span>), (<span class="number">40</span>,<span class="number">40</span>)]</span><br><span class="line">lrs = [<span class="number">0.003</span>, <span class="number">0.001</span>, <span class="number">0.0003</span>]</span><br><span class="line"><span class="keyword">for</span> bptt_step, lr <span class="keyword">in</span> ((x, y) <span class="keyword">for</span> x <span class="keyword">in</span> bptt_steps <span class="keyword">for</span> y <span class="keyword">in</span> lrs):</span><br><span class="line">    _, val_losses = \</span><br><span class="line">        train_network(<span class="number">20</span>, bptt_step[<span class="number">0</span>], use_true_bptt=<span class="keyword">False</span>, state_size=<span class="number">100</span>,</span><br><span class="line">                      batch_size=<span class="number">32</span>, learning_rate=lr, verbose=<span class="keyword">False</span>)</span><br><span class="line">    print(<span class="string">"** TF STYLE **"</span>, bptt_step, lr)</span><br><span class="line">    print(np.min(val_losses))</span><br><span class="line">    <span class="keyword">if</span> bptt_step[<span class="number">0</span>] != <span class="number">0</span>:</span><br><span class="line">        _, val_losses = \</span><br><span class="line">            train_network(<span class="number">20</span>, bptt_step[<span class="number">1</span>], use_true_bptt=<span class="keyword">True</span>, bptt_steps= bptt_step[<span class="number">0</span>],</span><br><span class="line">                          state_size=<span class="number">100</span>, batch_size=<span class="number">32</span>, learning_rate=lr, verbose=<span class="keyword">False</span>)</span><br><span class="line">        print(<span class="string">"** TRUE STYLE **"</span>, bptt_step, lr)</span><br><span class="line">        print(np.min(val_losses))</span><br></pre></td></tr></table></figure>
+<p>Minimum validation loss achieved in 20 epochs:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>BPTT Steps 5</strong></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Learning Rate</td>
+<td>0.003</td>
+<td>0.001</td>
+<td>0.0003</td>
+</tr>
+<tr>
+<td>True (20-seq)</td>
+<td><strong>5.12</strong></td>
+<td><strong>5.01</strong></td>
+<td>5.09</td>
+</tr>
+<tr>
+<td>TF Style</td>
+<td>5.21</td>
+<td>5.04</td>
+<td><strong>5.04</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>BPTT Steps 10</strong></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Learning Rate</td>
+<td>0.003</td>
+<td>0.001</td>
+<td>0.0003</td>
+</tr>
+<tr>
+<td>True (30-seq)</td>
+<td><strong>5.07</strong></td>
+<td><strong>5.00</strong></td>
+<td>5.12</td>
+</tr>
+<tr>
+<td>TF Style</td>
+<td>5.15</td>
+<td>5.03</td>
+<td><strong>5.05</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>BPTT Steps 20</strong></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Learning Rate</td>
+<td>0.003</td>
+<td>0.001</td>
+<td>0.0003</td>
+</tr>
+<tr>
+<td>True (40-seq)</td>
+<td><strong>5.05</strong></td>
+<td>5.00</td>
+<td>5.15</td>
+</tr>
+<tr>
+<td>TF Style</td>
+<td>5.11</td>
+<td><strong>4.99</strong></td>
+<td><strong>5.08</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>BPTT Steps 40</strong></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Learning Rate</td>
+<td>0.003</td>
+<td>0.001</td>
+<td>0.0003</td>
+</tr>
+<tr>
+<td>TF Style</td>
+<td>5.05</td>
+<td>4.99</td>
+<td>5.15</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h2><p>如你所见，当以相同的steps截断误差时，“真”截断反向传播算法似乎比Tensorflow-style好。但是，随着BPTT steps逐渐增加，这种优势逐渐减弱，当Tensorflow-style截断反向传播steps为序列长度时，这种优势便消失了，甚至反过来。</p>
+<p>所以结论是：</p>
+<ul>
+<li>一个实现得很好、均匀分布的截断反向传播算法与全反向传播（full backpropagation）算法在运行速度上相近，而全反向传播算法在性能上稍微好一点。</li>
+<li>初步实验表明，n-step Tensorflow-style 反向传播（with num_step=n）并不能有效地反向传播整个n steps误差。因此，如果使用Tensorflow-style 截断反向传播并且需要捕捉n-step依赖关系，则可以使用明显高于n的num_step<br>以便于有效地将误差反向传播所需地n steps。</li>
+</ul>
+<p><strong>Edit</strong>: 写完这篇博文之后，才发现关于不同的截断反向传播已经在<a href="https://web.stanford.edu/class/psych209a/ReadingsByDate/02_25/Williams%20Zipser95RecNets.pdf" target="_blank" rel="noopener"> Williams and Zipser (1992), Gradient-Based Learning Algorithms for Recurrent Networks and Their Computation Complexity</a>这篇论文中讨论。作者将本文中提到的“真”反向传播定义为“截断反向传播”，表示为：BPTT(n)/BPTT(n, 1)；而Tensorflow-style截断反向传播定义为“epochwise 截断反向传播”，表示为：BPTT(n, n)。同时允许“semi-epochwise”截断BPTT，which would do a backward pass more often than once per sequence, but less often than all possible times (i.e., in Ilya Sutskever’s language used above, this would be BPTT(k2, k1), where 1 &lt; k1 &lt; k2).【译者注：本人才疏学浅未理解】</p>
+<p>在<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.56.7941&amp;rep=rep1&amp;type=pdf" target="_blank" rel="noopener"> Williams and Peng (1990), An Efficien Gradient-Based Algorithm for On-Line Training of Recurrent Network Trajectories</a>中，作者进行了类似本文的实验，并得出与本文类似的结论。Williams Peng写到“The results of these experiments have been that the success rate of BPTT(2h; h) is essentially identical to that of BPTT(h)”，也就是说，他比较了“真”截断h-steps反向传播与BPTT(2n, n)(这与截断2n-steps Tensorflow-style反向传播相似)，最终发现它们表现相近。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Buy me a cup of coffee</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="zydarChen 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="zydarChen 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>zydarChen</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://www.zydarchen.top/20171221/14_styles_of_truncated_backpropagation/" title="【译】不同的截断反向传播">https://www.zydarchen.top/20171221/14_styles_of_truncated_backpropagation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20171023/13_debug/" rel="next" title="Debug Myself">
+                <i class="fa fa-chevron-left"></i> Debug Myself
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20180116/15_understanding_stateful_LSTM/" rel="prev" title="理解stateful LSTM">
+                理解stateful LSTM <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div style="text-align:left;">
+        <button class="btn-switch-comments" id="load-livere" onclick="livere.load();">没有GitHub？切换LiveRe评论</button>
+      </div>
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTk1Mi82NTE3"></div>
+    </div>
+
+  
+
+  
+    <div class="comments" id="gitalk-container"></div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/dandan.jpg" alt="zydarChen">
+            
+              <p class="site-author-name" itemprop="name">zydarChen</p>
+              <p class="site-description motion-element" itemprop="description">平淡无奇、追海贼、爱艺青的写代码少年</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zydarchen" title="GitHub &rarr; https://github.com/zydarchen" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:zydarchen@outlook.com" title="E-Mail &rarr; mailto:zydarchen@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/images/wechat.jpg" title="WeChat &rarr; /images/wechat.jpg"><i class="fa fa-fw fa-wechat"></i>WeChat</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Differences-in-styles-of-truncated-backpropagation"><span class="nav-number">1.</span> <span class="nav-text">Differences in styles of truncated backpropagation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验设计"><span class="nav-number">2.</span> <span class="nav-text">实验设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Imports-and-data-generators"><span class="nav-number">3.1.</span> <span class="nav-text">Imports and data generators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model"><span class="nav-number">3.2.</span> <span class="nav-text">Model</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Some-quick-tests"><span class="nav-number">4.</span> <span class="nav-text">Some quick tests</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#速度测试"><span class="nav-number">4.1.</span> <span class="nav-text">速度测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#梯度消失演示"><span class="nav-number">4.2.</span> <span class="nav-text">梯度消失演示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Quick-accuracy-test"><span class="nav-number">4.3.</span> <span class="nav-text">Quick accuracy test</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验"><span class="nav-number">5.</span> <span class="nav-text">实验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果"><span class="nav-number">6.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Discussion"><span class="nav-number">7.</span> <span class="nav-text">Discussion</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zydarChen</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">158k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" rel="external nofollow" href="https://pages.coding.me">Coding Pages</a> | <a target="_blank" href="https://pages.github.com">GitHub Pages</a></div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      本站访客数： 
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+  
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.5.0"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      var livere = {
+        load : function livere() {
+          window.livereOptions = {
+            refer: '20171221/14_styles_of_truncated_backpropagation/'
+          };
+          (function(d, s) {
+            var j, e = d.getElementsByTagName(s)[0];
+            if (typeof LivereTower === 'function') { return; }
+            j = d.createElement(s);
+            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+            j.async = true;
+            e.parentNode.insertBefore(j, e);
+          })(document, 'script');
+        $('#load-livere').remove();
+        }
+      }
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+  
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+  
+  
+  <script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+  <script>
+    var gitalk = new Gitalk({
+      clientID: '023640644ec61c874e3f',
+      clientSecret: '4b561e00537dcfaa60a4170b4d40858b6c4cb4d3',
+      repo: 'zydarChen.github.io',
+      owner: 'zydarChen',
+      admin: ['zydarChen'],
+      id: md5(location.pathname),
+      
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "7tHKvbVfLE3KInkniGVHEDUS-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "7tHKvbVfLE3KInkniGVHEDUS-gzGzoHsz",
+                'X-LC-Key': "mwistCWddM7g034DSjjvEjQJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.5.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.5.0"></script>
+
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+  
+</body>
+</html>

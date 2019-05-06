@@ -1,0 +1,2647 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.5.0">
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.5.0',
+    sidebar: {"position":"left","display":"delay_hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+<!-- Chatra {literal} -->
+
+<!-- /Chatra {/literal} -->
+
+
+  <div style="position: fixed; bottom: 25px; right: -7px; z-index: 9999;">
+    <button class="btn-chat" id="load-daovoice" onclick="mydaovoice.load();">
+        <i class="menu-item-icon fa fa-fw fa-commenting"></i>
+    </button>
+  </div>
+  <script>
+    var mydaovoice = {
+      load : function mydaovoice() {
+        (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+        daovoice('init', {
+          app_id: "e98a641a"
+        });
+        daovoice('update');
+        $('#load-daovoice').remove();
+      }
+    }
+  </script>
+
+
+  <meta name="description" content="见招拆招，算法面试套路~  问题不保证全面，不保证有意义，仅记录我面过的，见过的，觉得可能能面的答案不保证100%正确，100%全面，能在面试官面前眉飞色舞地吹就行答案偏口语化，毕竟面试如有错误，或有补充，欢迎评论指出">
+<meta name="keywords" content="面试,ML">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法面试快问快答">
+<meta property="og:url" content="https://www.zydarchen.top/20180402/16_offer_ML/index.html">
+<meta property="og:site_name" content="沐雨浥尘">
+<meta property="og:description" content="见招拆招，算法面试套路~  问题不保证全面，不保证有意义，仅记录我面过的，见过的，觉得可能能面的答案不保证100%正确，100%全面，能在面试官面前眉飞色舞地吹就行答案偏口语化，毕竟面试如有错误，或有补充，欢迎评论指出">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://pic.zydarchen.top/16_taylor.png">
+<meta property="og:image" content="https://pic.zydarchen.top/16_lstm.png">
+<meta property="og:updated_time" content="2019-04-18T10:36:51.484Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法面试快问快答">
+<meta name="twitter:description" content="见招拆招，算法面试套路~  问题不保证全面，不保证有意义，仅记录我面过的，见过的，觉得可能能面的答案不保证100%正确，100%全面，能在面试官面前眉飞色舞地吹就行答案偏口语化，毕竟面试如有错误，或有补充，欢迎评论指出">
+<meta name="twitter:image" content="https://pic.zydarchen.top/16_taylor.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://www.zydarchen.top/20180402/16_offer_ML/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>算法面试快问快答 | 沐雨浥尘</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0d220dbb27eaa2772792766710716ded";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">沐雨浥尘</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">沐雨浥尘</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>目录</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+  
+
+  
+
+    <a href="https://github.com/zydarchen" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.zydarchen.top/20180402/16_offer_ML/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zydarChen">
+      <meta itemprop="description" content="平淡无奇、追海贼、爱艺青的写代码少年">
+      <meta itemprop="image" content="/images/dandan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="沐雨浥尘">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">算法面试快问快答
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-02 09:51:17" itemprop="dateCreated datePublished" datetime="2018-04-02T09:51:17+08:00">2018-04-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-18 18:36:51" itemprop="dateModified" datetime="2019-04-18T18:36:51+08:00">2019-04-18</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/20180402/16_offer_ML/" class="leancloud_visitors" data-flag-title="算法面试快问快答">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-tag"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">12k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">11 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>见招拆招，算法面试套路~</p>
+<blockquote>
+<p>问题不保证全面，不保证有意义，仅记录我面过的，见过的，觉得可能能面的<br>答案不保证100%正确，100%全面，能在面试官面前眉飞色舞地吹就行<br>答案偏口语化，毕竟面试<br>如有错误，或有补充，欢迎评论指出</p>
+</blockquote>
+<a id="more"></a>
+<p>安利个非常有用的算法基础教程【<a href="https://www.nowcoder.com/6493147" target="_blank" rel="noopener">牛客网</a>出品】<a href="https://www.nowcoder.com/courses/semester/algorithm" target="_blank" rel="noopener">直通BAT — 求职算法精品课</a>，资源私聊（右下角DaoVoice or 文末评论）</p>
+<h1 id="机器学习基本概念"><a href="#机器学习基本概念" class="headerlink" title="机器学习基本概念"></a>机器学习基本概念</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">经验误差&泛化误差</div></div><div class="fold">
+<ul>
+<li>学习器在训练集上的误差称为训练误差或经验误差，在新样本上的误差称为泛化误差</li>
+<li>显然，我们希望得到泛化误差小的学习器</li>
+<li>然而，我们事先并不知道新样本是什么样，实际能做的是努力使经验误差最小化，同时需要对过拟合进行一定处理</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">MSE、RMSE、MRE、MAE、MAPE</div></div><div class="fold">
+<ul>
+<li>MSE：均方误差</li>
+<li>RMSE：均方根误差，针对异常值更加敏感；衡量预测值与真值之间的偏差，对误差取了平方，使得计算结果与较大值更相关，公式$RMSE=\sqrt{\frac{1}{n}\sum _{t=1}^n(|A_t-F_t|)^2}$</li>
+<li>MRE：平均相对误差</li>
+<li>MAE：平均绝对误差</li>
+<li>MAPE：平均绝对百分比误差，不仅考虑了预测值与真实值的误差，还考虑了误差与真实值之间的比例，公式$MAPE=\frac{100}{n}\sum _{t=1}^n|\frac{A_t-F_t}{A_t}|$</li>
+<li>other</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">P、R、F1、ROC</div></div><div class="fold">
+<ul>
+<li>P：准确率/查准率，真正例(TP)占全部预测正例(TP+FP)的比例</li>
+<li>R：召回率/查全率，真正例(TP)占全部正例(TP+TF)的比例</li>
+<li>F1：准确率和召回率的调和平均<ul>
+<li>$F_1=\frac{2RP}{R+P}$</li>
+<li>$F_\beta =\frac{1}{1+\beta ^2}(\frac{1}{P}+\frac{\beta ^2}{R})$</li>
+</ul>
+</li>
+<li>ROC：横轴假正例率，纵轴真正例率</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">ROC曲线的画法</div></div><div class="fold">
+<ul>
+<li>对预测结果进行排序</li>
+<li>阈值设置为最大值，此时所有样本均为负例，真正例率与假正例率均为零，表现为原点</li>
+<li>逐渐降低阈值，依次使得每个样本预测为正例</li>
+<li>如果下一个样本是真正例，对应y值加上1/n，否则x值加上1/n（假设当前坐标为(x, y)，如果该样本是真正例，则下一个点坐标为$(x, y+\frac{1}{n^+})$；如果该样本是假正例，则下一个点坐标为$(x+\frac{1}{n^+}, y)$）</li>
+<li>最后阈值设置最小，使得所有样本预测为正例，此时对应坐标(1, 1)</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">防止过拟合的方法</div></div><div class="fold">
+<ul>
+<li>获取更多数据：从数据源头获取、根据数据分布生成、数据增广</li>
+<li>正则化：更小的参数值w意味着模型的复杂度更低，对训练数据的拟合刚刚好</li>
+<li>Bagging、Boosting、Dropout</li>
+<li>贝叶斯方法</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">混淆矩阵</div></div><div class="fold">
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>预测正例P</th>
+<th>预测反例N</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正例T</td>
+<td>TP</td>
+<td>TN</td>
+</tr>
+<tr>
+<td>反例F</td>
+<td>FP</td>
+<td>FN</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">常用的归一化方式</div></div><div class="fold">
+<ul>
+<li>标准归一化<ul>
+<li>$z=\frac{x_i-\mu }{\delta }$</li>
+<li>当使用距离来度量相似性时，标准归一化表现更好</li>
+<li>需要原始数据至少近似呈现正态分布</li>
+</ul>
+</li>
+<li>最大最小归一化<ul>
+<li>$z=\frac{x_i-min }{max-min}$</li>
+<li>缺点是新数据的加入可能导致max和min的变化</li>
+<li>对方差非常小的属性可以增强其稳定性</li>
+<li>维持稀疏矩阵中为0的条目</li>
+<li>图像处理中，常将RGB图像转化为灰度图像后将其值限定在[0 255]的范围</li>
+</ul>
+</li>
+<li>线性比例变化法</li>
+<li>softmax变化</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">为什么要归一化</div></div><div class="fold">
+<ul>
+<li>不同特征之间往往具有不同的量纲和量纲单位，使得损失函数可能呈现出扁平状，此时的梯度下降过程是曲折的</li>
+<li>提升模型的精度，量级相差太多的数运算会导致许多错误，让损失函数中的数据不要太大或者太小</li>
+<li>梯度下降过程中，能更好的找到最小值</li>
+</ul>
+
+</div></div>
+</li>
+</ol>
+<h1 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是最小二乘法</div></div><div class="fold">
+<ul>
+<li>基于<strong>均方误差最小化</strong>来进行模型求解的方法；试图找到一条直线，使所有样本到直线上的欧式距离之和最小</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是LR</div></div><div class="fold">
+<ul>
+<li>从线性模型出发，我们有$y=w^Tx+b$，就是使用x的线性组合去预测y，y也可以是关于y的单调可微函数，这是广义线性模型</li>
+<li>对于一个二分类问题来说，需要将结果转换为0/1值，最容易想到的就是单位阶跃函数。很明显，这是不可微的</li>
+<li>于是我们就找到了sigmoid函数，能在一定程度上近似单位阶跃函数</li>
+<li>最后，LR就是<strong>用线性模型的预测结果去逼近真实标记的对数几率</strong></li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">sigmoid</div></div><div class="fold">
+<ul>
+<li>$y=\frac{1}{1+e^{-z}}$</li>
+<li>一个事件的几率（odds）是指该事件发生的概率与该事件不发生的概率的比值</li>
+<li>$y’=y(1-y)$</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">极大似然估计与最小二乘</div></div><div class="fold">
+<ul>
+<li>最小二乘法试图找到一条直线或者一个超平面，使得所有样本到该直线的欧氏距离最小</li>
+<li>极大似然估计使模型对于此数据集中样本值的发生概率最大，也就是使模型能尽可能拟合现有数据集中现有的样本</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">LR极大似然估计计算</div></div><div class="fold">
+<ul>
+<li>$P(y=1|x;w)=\sigma (wx)$</li>
+<li>$P(y=0|x;w)=1-\sigma (wx)$</li>
+<li>取似然函数</li>
+<li>$l(w)=\prod _{i=1}^mP(y_i|x_i;w)=\prod \sigma (wx_i)^{y_i}(1-\sigma (wx_i))^{1-y_i}$</li>
+<li>$-L(x)=log l(w)=\sum _{i=1}^m(y_ilog\sigma (wx_i)+(1-y_i)log(1-\sigma (wx_i)))$</li>
+<li>问题转化为求L(x)最小值</li>
+<li>$\frac{\partial L}{\partial (wx_i)}=\frac{\partial L}{\partial \sigma (wx_i)}\frac{\partial \sigma (wx_i)}{\partial (wx_i)}$<ul>
+<li>$=[-y_i\frac{1}{\sigma (wx_i)}-(1-y_i)\frac{-1}{1-\sigma (wx_i)}]\sigma (wx_i)(1-\sigma (wx_i))$</li>
+<li>$-y_i(1-\sigma (wx_i))+(1-y_i)\sigma (wx_i)$</li>
+<li>$\sigma (wx_i)-y_i$</li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">信息量、熵、交叉熵</div></div><div class="fold">
+<ul>
+<li>信息量：事件发生概率越大，它所携带的信息量越小$l(x)=-logp(x)$</li>
+<li>熵：衡量的是事件发生的确定性，所有可能取值的信息量的期望，熵越大，变量的取值就越不确定$H(x)=-\sum _xP(x)logP(x)$</li>
+<li>交叉熵：衡量着两个分布之间的差异，两个随机分布间的距离度量</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是最大熵原理</div></div><div class="fold">
+<ul>
+<li>学习概率模型时，在所有可能的概率模型中，熵最大的模型是最好的模型</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">L1与L2的区别</div></div><div class="fold">
+<ul>
+<li>TODU</li>
+</ul>
+
+</div></div>
+</li>
+</ol>
+<h1 id="SVM"><a href="#SVM" class="headerlink" title="SVM"></a>SVM</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是SVM</div></div><div class="fold">
+<ul>
+<li>支持向量机是一种二分类模型，它的基本思路是在特征空间中寻找<strong>间隔最大化</strong>的分割超平面</li>
+<li>线性可分支持向量机：训练样本线性可分，硬间隔最大化</li>
+<li>线性支持向量机：训练样本近似线性可分，软间隔最大化</li>
+<li>非线性支持向量机：训练样本线性不可分，软间隔最大化+核技巧</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">为什么采用间隔最大化</div></div><div class="fold">
+<ul>
+<li>当训练样本线性可分时，存在无穷多个分割超平面</li>
+<li>利用间隔最大化可以找到最优的超平面，此时，解是唯一的，对未知样本的泛化能力也是最强的</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是间隔</div></div><div class="fold">
+<ul>
+<li>间隔分为函数间隔与几何间隔</li>
+<li>函数间隔与几何间隔的关系是，几何间隔=函数间隔/w的模</li>
+<li>函数间隔是$y_i (wx_i+b)$，其中$|wx+b|$相对地表示点x距离超平面的远近，符号是否一致就能表示分类是否正确，整个式子就能表示分类的正确性以及确信度</li>
+<li>然后我们看到函数间隔是有一定问题的，我们保持超平面不变，只是等比例地改变w，b，此时函数间隔也会发生变化</li>
+<li>因此引入几何间隔的概念，$y_i(\frac {w} {‖w‖}x_i+\frac {b}{‖w‖})$，将w，b同时除以w的模，使得间隔唯一确定下来</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">间隔最大化</div></div><div class="fold">
+<ul>
+<li>公式TODU</li>
+<li>首先，我们希望最大化几何间隔，约束条件是超平面(w, b)关于每个训练样本点的距离都至少是$\gamma $</li>
+<li>根据几何间隔与函数间隔的关系，可以写出第二个式子</li>
+<li>其中，函数间隔的取值并不影响最优化问题的解，我们不失一般性地取$\hat{\gamma }=1$，同时注意到最大化$\frac {1} {‖w‖}$与最小化$\frac {1} {2}‖w‖^2$是等价的</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">核函数、核技巧</div></div><div class="fold">
+<ul>
+<li>核函数：将输入从输入空间映射到特征空间中进行内积计算</li>
+<li>核技巧：通过核函数，隐式地在高维特征空间中进行学习</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">为什么要使用核函数</div></div><div class="fold">
+<ul>
+<li>样本在原始空间不可分时，需要将原始空间映射到一个高维的特征空间，使得样本在这个特征空间内线性可分</li>
+<li>映射函数往往不好求，通过核函数可以不显式地定义映射函数</li>
+<li>特征空间一般是高维的，甚至可能是无穷维</li>
+<li>而在SVM中，只涉及向量之间的内积运算</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是支持向量</div></div><div class="fold">
+<ul>
+<li>训练数据集的样本点与分离超平面距离最近的样本点的实例</li>
+<li>也就是$wx+b = ±1$上的点</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">SMO算法</div></div><div class="fold">
+<ul>
+<li>在SVM中，会有很多变量需要进行最优化求解</li>
+<li>SMO的基本思路就是选择两个变量，固定其他变量，针对这两个变量进行求解</li>
+<li>这样不断将原问题分解为只有两个变量的子问题，并对子问题进行解析求解</li>
+<li>直到所有的变量都满足KTT条件为止</li>
+<li>第一个变量选取：最不满足KTT条件的样本点</li>
+<li>第二个变量选取：与第一个变量间距最大</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">各种核函数</div></div><div class="fold">
+<ul>
+<li>多项式核$K_Q(x_i,x_j)=(\zeta + \gamma x_i^Tx_j)^Q$</li>
+<li>高斯核函数$K(x_i,x_j)=exp(-\frac{\left | x_i-x_j \right |^2}{2\sigma ^2})$<ul>
+<li>$\sigma$很大，低维；$\sigma$很小，高维，可能过拟合</li>
+<li>为什么也叫径向基核函数，因为高斯函数本身就是一个径向基函数，径向基函数是取值依赖于距离的函数</li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">为什么RBF能映射到无穷维</div></div><div class="fold">
+<ul>
+<li>泰勒展开<br><img src="https://pic.zydarchen.top/16_taylor.png" alt="Taylor"></li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">核函数的优缺点</div></div><div class="fold">
+<ul>
+<li>线性核函数<ul>
+<li>优点：最简单，计算速度最快，更可解释</li>
+<li>缺点：需要线性可分或近似线性可分</li>
+</ul>
+</li>
+<li>多项式核函数<ul>
+<li>优点：比线性核函数的限制少，当我们对实际问题有一定了解时，可能很好地认为限定Q</li>
+<li>缺点：Q较大时，计算困难，可能导致核函数趋近于0或者无穷大；参数选择较多，有三个</li>
+</ul>
+</li>
+<li>高斯核函数<ul>
+<li>优点：能映射到无穷维，因此可以拟合复杂的非线性问题；高斯函数数值上在0-1之间，更好计算；参数更好调节</li>
+<li>缺点：可解释性差；计算速度慢；过拟合</li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">食用技巧</div></div><div class="fold">
+<ul>
+<li>特征数m远大于样本数n，LR或线性核函数SVM</li>
+<li>特征数m小于样本数n，高斯核函数SVM</li>
+<li>样本数n非常大，此时高斯核函数SVM速度会很慢，因该引入更多特征</li>
+</ul>
+
+</div></div>
+</li>
+</ol>
+<h1 id="K-Means"><a href="#K-Means" class="headerlink" title="K-Means"></a>K-Means</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是K-Means</div></div><div class="fold">
+<ul>
+<li>K-Means是一种聚类算法，基本思想是对于给定的类别数目k，首先给出初始划分，通过迭代改变样本和簇的隶属关系，使得每一次改变后的划分方案都比前一次好</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">K-Means具体做法</div></div><div class="fold">
+<ul>
+<li>选择初始的k个类别中心</li>
+<li>将每个样本标记为最近的类别</li>
+<li>更新类别中心，将类别中心更新为该类别中所有样本的均值</li>
+<li>重复前面两步，直到类别中心的变化小于某阈值或者迭代一定轮数</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">K-Means的优缺点</div></div><div class="fold">
+<ul>
+<li>简单、快速</li>
+<li>对高斯分布的数据集，效果较好</li>
+<li>K需要预先定义</li>
+<li>均值不可计算时无法使用</li>
+<li>初值敏感</li>
+<li>不适用于发现非凸或者大小差别很大的簇</li>
+<li>对噪声和孤立点敏感</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">K值的确定</div></div><div class="fold">
+<ul>
+<li>经验</li>
+<li>又放回抽样，对不同的K值做两次聚类，计算相似性</li>
+<li>计算平均轮廓系数</li>
+<li>对不同的K值计算平方误差和（SSE），随着K的增大，SSE是肯定会降低的，找到那个开始降低不明显的点</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">初始化聚类中心</div></div><div class="fold">
+<ul>
+<li>K-Means++</li>
+<li>先计算整体样本中心，然后从中心点出发，由近至远均匀采样</li>
+<li>划分区域，区域中心未聚类中心</li>
+<li>先用层次聚类初始聚类，再进行K-Means</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">K-Means++算法</div></div><div class="fold">
+<ul>
+<li>随机选取第一个聚类中心</li>
+<li>计算每个点到最近聚类中心的距离D(x)</li>
+<li>选择D(x)最大的点作为下一个聚类中心</li>
+<li>重复上面步骤，直到得到k个聚类中心</li>
+</ul>
+
+</div></div>
+</li>
+</ol>
+<h1 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是决策树</div></div><div class="fold">
+<ul>
+<li>决策树是一种树形结构学习器</li>
+<li>从根节点开始，对实例的<strong>某一特征</strong>进行测试，根据测试结果，将实例分配到其子节点</li>
+<li>如此递归地对实例进行测试并分配，直到达到叶节点</li>
+<li>由决策树的根节点到叶节点的每一条路径就构建除了一条规则</li>
+<li>决策树学习本质上是从训练集中归纳出一组分类规则</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">决策树的三个步骤</div></div><div class="fold">
+<ul>
+<li>特征选择</li>
+<li>决策树的生成</li>
+<li>决策树的修剪</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">决策树终止条件</div></div><div class="fold">
+<ul>
+<li>节点样本集合为空</li>
+<li>节点样本属于同一类别</li>
+<li>节点属性集合为空</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">熵、条件熵、信息增益、基尼系数</div></div><div class="fold">
+<ul>
+<li>基尼系数$Gini(p) = - \sum _{k=1}^Kp_k(1-p_k) = 1 - \sum ^Kp_k^2$</li>
+<li>熵：随机变量的不确定性的度量$H(X) = -\sum _{i=1}^np_ilogp_i$</li>
+<li>信息增益：g(D,A) = H(D) - H(D|A)，H(D)表示对数据集D进行分类的不确定性；H(D|A)表示特征A给定的条件下对数据集D分类的不确定性；信息增益则表示，由于特征A而使得数据集D的分类不确定性减少的程度</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">ID3、C4.5、CART</div></div><div class="fold">
+<ul>
+<li>ID3：基于信息增益的大小来逐层确定分类特征，偏向于选择取值多的特征</li>
+<li>C4.5：先从候选特征中找出信息增益高于平均水平的特征，再从中选择信息增益比最高的</li>
+<li>CART：分类树用基尼系数最小化，回归树用平方误差最小化</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">ID3的具体过程</div></div><div class="fold">
+<ul>
+<li>从跟节点开始，对节点计算所有可能的特征信息增益</li>
+<li>选择信息增益最大的特征作为节点的特征，由该特征的不同取值建立子节点</li>
+<li>再对子节点递归地调用以上方法，构建决策树</li>
+<li>直到所有特征的信息增益均很小或没有特征可以选择为止</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">决策树怎么剪枝</div></div><div class="fold">
+<ul>
+<li>极小化决策树整体损失函数</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">决策树的优缺点</div></div><div class="fold">
+<ul>
+<li>树形，非线性，简单，易于理解</li>
+<li>能处理数据缺失问题</li>
+<li>能处理多分类问题</li>
+<li>能同时处理连续型变量与离散型变量</li>
+<li>缺点：容易过拟合，启发式</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">CART特点、剪枝、对缺失值的处理</div></div><div class="fold">
+<ul>
+<li>每个节点采用二叉分裂，分裂准则采用基尼系数或者平方误差最小</li>
+<li>剪枝：从生成算法产生的决策树底端开始不断剪枝，直到根节点，形成一个T0, T1, …, Tn的子序列</li>
+<li>缺失值：训练的过程中保存替代特征，对于缺失数据，用替代特征进行划分</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">C4.5对缺失值的处理</div></div><div class="fold">
+<ul>
+<li>划分点选择：未缺失样本的信息增益乘以为缺失样本的占比</li>
+<li>怎么划分：让同一样本以不同的概率划入到不同的子节点中</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">分类与回归树的区别</div></div><div class="fold">
+<ul>
+<li>分类树使用信息增益/信息增益比/基尼系数进行划分节点</li>
+<li>回归树使用均方误差来划分节点</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">预剪枝与后剪枝</div></div><div class="fold">
+<ul>
+<li>预剪枝：在决策树生成过程中，对每个节点在划分前先进行估计，若当前结点的划分不能带来决策树泛化性能提升，则停止划分并将当前节点标记为叶节点</li>
+<li>先从训练集生成一颗完整的决策树，然后从底向上地对非叶节点进行考察，若将该节点对应地子树替换为叶节点能带来决策树泛化性能提升，则将该子树替换为叶节点</li>
+</ul>
+
+</div></div>
+</li>
+</ol>
+<h1 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是随机森林</div></div><div class="fold">
+<ul>
+<li>随机森林是以决策树为基学习器构建Bagging集成</li>
+<li>进一步在决策树的训练过程中引入了随机特征组合</li>
+<li>具体地说，就是在决策树每次进行最优划分特征选择时，不考虑所有的特征，而只考虑随机的特征子空间或者随机特征组合</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">随机森林的优点</div></div><div class="fold">
+<ul>
+<li>高效并行训练</li>
+<li>决策树的所有优点</li>
+<li>降低了过拟合的可能</li>
+<li>可用评估特征的重要性，做特征选择</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">怎么自我验证</div></div><div class="fold">
+<ul>
+<li>随机森林采用了bagging的方式，每次训练大约有1/3的数据可以用于做验证</li>
+<li>对于每个样本xn，都有部分子决策树没有使用该样本进行训练，我们将这些子树拿出来就组成了$G_n^− (x_n)$，再求一下误差值，最终将所有的$G_n^− (x_n)$综合起来</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">特征重要度衡量</div></div><div class="fold">
+<ul>
+<li>将OOB的特征值进行重排，对模型效果影响是否显著</li>
+</ul>
+
+</div></div>
+</li>
+</ol>
+<h1 id="集成学习"><a href="#集成学习" class="headerlink" title="集成学习"></a>集成学习</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是集成学习</div></div><div class="fold">
+<ul>
+<li>对于一个复杂的任务来说，将多个专家的判断进行适当的综合所得出的判断，要比其中任何一个专家单独的判断好</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是Boosting</div></div><div class="fold">
+<ul>
+<li>Boosting就是从弱学习算法出发，反复学习，得到一系列弱学习器，然后组合这些弱学习器得到一个强学习器</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是AdaBoost</div></div><div class="fold">
+<ul>
+<li>先从初始训练集训练出一个基学习器，在根据基学习器的表现对训练样本分布进行调整，使得之前错的训练样本在后续受到更多关注，也就是提高那些被前一轮分类器错误分类样本的权值，而降低那些被正确分类样本的权值</li>
+<li>最终采用加权多数表决进行综合</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是Gradient_Boosting</div></div><div class="fold">
+<ul>
+<li>通过迭代拟合损失函数的负梯度值，让损失函数持续下降</li>
+<li>每次迭代先求得关于累加函数F(x)的负梯度(- gradient)，然后通过弱学习器f(x)去拟合该负梯度，然后将弱学习器f累加到F得到新的F</li>
+<li>当损失函数是平方损失时，该负梯度值也就是残差，模型退化为回归提升模型</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是Bagging</div></div><div class="fold">
+<ul>
+<li>基于bootstrap sampling：从m样本中，有放回地取出m个样本</li>
+<li>构建多个学习器，并集成</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是XGBoost</div></div><div class="fold">
+<ul>
+<li>一个GBDT大规模并行开源框架</li>
+<li>GBDT是一种Boosting</li>
+<li>Boosting是…</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">GBDT与提升树的区别</div></div><div class="fold">
+<ul>
+<li>提升树拟合的是残差，损失函数是均方误差；GBDT拟合的是负梯度值</li>
+<li>GBDT中引入了学习率</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">GBDT如何转换为分类问题</div></div><div class="fold">
+<ul>
+<li>二分类：比较最终的概率大小，区分属于正类还是负类</li>
+<li>多分类：生成k棵回归数，每棵树的叶节点表示某一类样本的得分，样本最终对各类的概率由softmax对每个得分归一化处理得到</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">XGBoost与GBDT的区别</div></div><div class="fold">
+<ul>
+<li>传统的GBDT以CART树为<strong>基学习器</strong>，XGBOOST还支持线性分类器，这时候的XGBOOST就相当于加了正则项的逻辑回归或者线性回归</li>
+<li>XGBOOST在代价函数中加入了<strong>正则项</strong>，用于控制模型的复杂度；L1可以控制叶节点的个数，L2可以控制叶节点上的样本数目</li>
+<li>传统GBDT在优化的时候只用到了一阶导数，XGBOOST则对代价函数进行<strong>二阶泰勒展开</strong>，同时利用一阶和二阶导信息计算</li>
+<li><strong>列抽样</strong>：XGBOOST借鉴了随机森林的做法，对特征抽样再拟合，不仅防止过拟合，还能减少计算</li>
+<li><strong>并行结算</strong>：XGBOOST在特征粒度上开多个线程同时计算它们各自的最佳信息增益</li>
+</ul>
+
+</div></div>
+</li>
+</ol>
+<h1 id="ARIMA"><a href="#ARIMA" class="headerlink" title="ARIMA"></a>ARIMA</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是ARIMA模型</div></div><div class="fold">
+<ul>
+<li>AR是使用当前观察点以及若干延迟时期观察点的依赖关系进行建模</li>
+<li>MA是使用当前观察点以及若干延迟时期观察点在移动平均模型上的残差的依赖关系进行建模</li>
+<li>I表示对数据地差分，使得不平稳地序列变得平稳</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">稳定的标准</div></div><div class="fold">
+<ul>
+<li>恒定的平均数</li>
+<li>恒定地方差</li>
+<li>不随时间变化地自协方差</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">平稳的定义</div></div><div class="fold">
+<ul>
+<li>常数均值</li>
+<li>自协方差与自相关系数<strong>只依赖于</strong>时间地平移长度而与时间地起止点无关</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">平稳的序列通常具有短期相关性</div></div><div class="fold">
+<ul>
+<li>用自相关系数来描述就是随着延迟期k的增加，平稳序列的自相关系数会很快衰减向零</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">如何判断是否平稳</div></div><div class="fold">
+<ul>
+<li>在自相关图（PAC）上，随着延迟期数k的增加，自相关系数很快衰减向零，且之后始终控制在2倍标准差范围内</li>
+<li>为什么引入2倍标准差呢？由于样本的随机性，很难确定是否真正截尾（最初的d阶明显超过2倍标准差范围，而后几乎95%的（偏）自相关系数都落在2倍标准差范围以内，则d阶截尾）</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">ARIMA建模的一般过程</div></div><div class="fold">
+<ul>
+<li>平稳性检验（DF检验）</li>
+<li>白噪声检验</li>
+<li>定阶<ul>
+<li>偏自相关系数定p</li>
+<li>自相关系数定q</li>
+</ul>
+</li>
+<li>参数估计</li>
+<li>模型验证<ul>
+<li>模型的显著性检验：残差为白噪声，好的拟合模型能够提取观测序列中几乎所有样本的相关信息</li>
+<li>参数的显著性检验：每一个未知参数显著非零</li>
+</ul>
+</li>
+<li>模型优化，AIC、SBS越小越好</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">自协方差&自相关系数</div></div><div class="fold">
+<ul>
+<li>方差$\sigma _t^2=D(X_t)=E(X_t-\mu _t)^2$</li>
+<li>自协方差$\gamma (t,s)=E(X_t-\mu _t)E(X_s-\mu _s)$</li>
+<li>自相关系数$ACF=\frac{\gamma (t,s)}{\sqrt{D(X_t)D(X_s)}}$</li>
+</ul>
+
+</div></div>
+</li>
+</ol>
+<h1 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">梯度下降是什么</div></div><div class="fold">
+<ul>
+<li>梯度下降法是最小化目标函数$J(\theta )$的一种方法</li>
+<li>梯度下降法利用目标函数关于参数的梯度$\bigtriangledown _\theta J(\theta )$的反方向更新参数。</li>
+<li>学习率$\eta$决定达到最小值或者局部最小值过程中所采用的步长大小</li>
+<li>对于凸误差函数，批量梯度下降法能够保证收敛到全局最小值，对于非凸函数，则收敛到一个局部最小值</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">BGD、SGD、小批量梯度下降对比</div></div><div class="fold">
+<ul>
+<li>BGD<ul>
+<li>$\theta = \theta - \eta \bigtriangledown _\theta J(\theta )$</li>
+<li>在整个训练集上计算损失函数关于参数θ的梯度</li>
+<li>计算速度慢、内存需求高</li>
+<li>不能在线更新模型</li>
+<li>对于非凸损失函数，容易陷入局部最优</li>
+</ul>
+</li>
+<li>SGD<ul>
+<li>$\theta = \theta - \eta \bigtriangledown _\theta J(\theta ;x^i;y^i)$</li>
+<li>批量梯度下降会对相似样本计算梯度，造成冗余；而SGD从一定程度上消除冗余</li>
+<li>训练速度快</li>
+<li>支持在线学习</li>
+<li>波动性使得SGD可以跳出局部最优，但也使得收敛变得复杂</li>
+</ul>
+</li>
+<li>小批量梯度下降<ul>
+<li>$\theta = \theta - \eta \bigtriangledown _\theta J(\theta ;x^{i:i+n};y^{i:i+n})$</li>
+<li>减少参数更新的方差，这样可以得到更加稳定的收敛结果</li>
+<li>可以利用最新的深度学习库中高度优化的矩阵优化方法，高效地求解每个小批量数据的梯度</li>
+</ul>
+</li>
+<li>如果学习率很小或者梯度随着x变化很小，SGD与批梯度下降法具有相同的收敛行为</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">改进得梯度下降</div></div><div class="fold">
+<ul>
+<li>动量法(Momentum)<br>在梯度方向上增加一个分量，这个分量与历史步长有关</li>
+<li>NAG<br>给动量项预知得能力</li>
+<li>Adagrad<br>自适应学习率</li>
+<li>Adadelta<br>克服Adagrad学习率单调递减问题</li>
+<li>RMSprop<br>Adadelta得一个特例</li>
+<li>Adam</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">食用技巧</div></div><div class="fold">
+<ul>
+<li>如果输入数据是稀疏的，选择任一自适应学习率算法可能会得到最好的结果。选用这类算法的另一个好处是无需调整学习率，选用默认值就可能达到最好的结果</li>
+<li>优化后期由于梯度变得越来越稀疏，偏差校正能够帮助Adam微弱地胜过RMSprop</li>
+<li>如果你关心的是快速收敛和训练一个深层的或者复杂的神经网络，你应该选择一个自适应学习率的方法</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">优化SGD</div></div><div class="fold">
+<ul>
+<li>大多数情况下希望避免模型中以一定意义的顺序提供训练数据，通过洗牌避免；另一方面，有些情况下需要逐步解决问题</li>
+<li>批量归一化</li>
+<li>Early Stopping</li>
+<li>梯度噪音</li>
+</ul>
+
+</div></div>
+</li>
+</ol>
+<h1 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是RNN</div></div><div class="fold">
+<ul>
+<li>RNN对序列的每一个元素都执行相同的任务，输出依赖于先前的计算</li>
+<li>普通神经网络，基于data0预测result0，data1预测result1</li>
+<li>当我们的data0跟data1是相互关联的时候，普通的神经网络不能了解这种关联</li>
+<li>而RNN就是让神经网络具备记住之前发生事情的能力</li>
+<li>当data0预测result0的时候形成记忆state0，然后在data1预测result1的时候将之前的记忆state0调用过来</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">RNN公式</div></div><div class="fold">
+<ul>
+<li>$o_t=g(Vs_t)$</li>
+<li>$s_t=f(Ux_t+Ws_{t-1})$</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">解释梯度消失以及LSTM怎么缓解</div></div><div class="fold">
+<ul>
+<li>在传统的RNN中，单元状态$s_t$可以表示为，$s_t=f(Ux_t+W_{t-1})$，根据求导的链式法则，可以看出，$s_t$对U、W的偏导跟$s_{t-1}$ 有关，最后会形成一个与W有关的累乘形式</li>
+<li>这种累乘的求导形式正是导致梯度问题的关键，简单的说，如果这个W小于1，最后的误差就几乎消失，如果这个W大于1，不断累乘，误差可能变成一个无穷大的数</li>
+<li>在LSTM中，由于门控单元的引入，在反向传播中，先会经过一个加法操作，然后再与遗忘门$f_t$相乘，累乘形式中不再是固定的W，而是变化的遗忘门$f_t$，这能在一定程度上缓解梯度消失</li>
+<li>进一步看，这个遗忘门是一个sigmoid函数，最终的累乘形式中包含$tanh′(x)\sigma(y)$的形式，而这个乘积本身是一个非0即1的值</li>
+<li>简单地说，原始RNN的隐藏层只有一个状态，它对于短期的输入非常敏感，LSTM就是再增加一个状态，用它来保存长期的状态</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">不同反向传播方式</div></div><div class="fold">
+<ul>
+<li>全反向传播<ul>
+<li>误差会一直传递到初始时刻</li>
+<li>计算开销大</li>
+<li>梯度消失的存在，使得进一步反向传播不再重要</li>
+</ul>
+</li>
+<li>截断反向传播<ul>
+<li>真截断：每个误差反向传播n steps</li>
+<li>Tensorflow-style：切成n个子序列，n个误差被反向传播了n steps</li>
+<li>结论：随着BPTT steps的增加，Tensorflow-style逐渐占据优势</li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">LSTM的门</div></div><div class="fold">
+<p><img src="https://pic.zydarchen.top/16_lstm.png" alt="LSTM"></p>
+<ul>
+<li>遗忘门决定了上一时刻的单元状态$c_{t−1}$有多少保留到当前时刻$c_t$</li>
+<li>输入门决定了当前时刻网络的输入$x_t$有多少保存到单元状态$c_t$</li>
+<li>输出门决定了单元状态$c_t$有多少输出到LSTM的当前输出值$h_t$</li>
+<li>遗忘门：$f_t=W_f[h_{t-1},x_t]+b_f$</li>
+<li>输入门：$i_t=W_i[h_{t-1},x_t]+b_i$</li>
+<li>输出门：$o_t=W_o[h_{t-1},x_t]+b_o$</li>
+<li>本次输入的单元状态：$c’_t=tanh(W_c[h_{t-1},x_t]+b_c)$</li>
+<li>本次输出的单元状态：$c_t=f_t\circ c_{t-1}+i_t \circ c’_t$</li>
+<li>最终输出：$h_t=o_t \circ tanh(c_t)$</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">sigmoid、tanh、Relu</div></div><div class="fold">
+<ul>
+<li>sigmoid<ul>
+<li>梯度饱和问题：sigmoid在激活值接近于0或者1时，梯度接近于0，反向传播过程中容易出现梯度弥散</li>
+<li>sigmoid函数输出不是以0为中心</li>
+</ul>
+</li>
+<li>tanh<ul>
+<li>同样存在梯度饱和问题</li>
+<li>函数输出以0为中心</li>
+</ul>
+</li>
+<li>Relu(Rectified Linear Unit，修正线性单元)<ul>
+<li>减轻了梯度弥散问题</li>
+<li>Relu会使部分神经元的输出为0，造成网络的稀疏性，缓解过拟合</li>
+<li>计算速度快</li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">RNN梯度问题公式</div></div><div class="fold">
+<ul>
+<li>TODU</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">GRU</div></div><div class="fold">
+<ul>
+<li>Gated Recurrent Unit</li>
+<li>更新门：$z_t=\sigma (W_z[h_{t-1},x_t]+b_z)$</li>
+<li>重置门：$r_t=\sigma (W_r[h_{t-1},x_t]+b_r)$</li>
+<li>候选隐藏层：$h’_t=tanh(W[r_t \circ h_{t-1}, x_t]+b)$</li>
+<li>输出：$h_t=(1-z_t \circ h_{t-1}+z_t \circ h’_t)$</li>
+<li>更新门：决定了先前记忆信息的保留程度</li>
+<li>重置门：决定了新的输入与前一时刻记忆的组合方式</li>
+<li>当$r_t=1$，$z_t=0$。这就是个普通的RNN</li>
+</ul>
+
+</div></div>
+</li>
+</ol>
+<h1 id="CNN"><a href="#CNN" class="headerlink" title="CNN"></a>CNN</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是CNN</div></div><div class="fold">
+<ul>
+<li>卷积神经网络里的“卷积”，代表的是神经网络不再是对每个像素的输入信息做处理了,而是图片上每一小块像素区域进行处理, 这种做法加强了图片信息的连续性。使得神经网络能看到图形, 而非一个点。</li>
+<li>卷积神经网络与传统全连接网络的区别在于1. 神经元间的连接是非全连接的，2. 同一层中某些神经元之间的连接的权重是共享的</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">什么是pooling</div></div><div class="fold">
+<ul>
+<li>在每一次进行多步的卷积时, 神经层可能会无意地丢失一些信息</li>
+<li>pooling就是为了解决这个问题</li>
+<li>在进行卷积时不压缩长宽，也就是步长设置为1，这样可以尽量保留更多信息，压缩的工作就交给pooling层去做</li>
+<li>pooling分为Max pooling和Average pooling，前者取最大值代表一小块区域，后者取平均值</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">Relu的优势</div></div><div class="fold">
+<ul>
+<li>速度快，和sigmoid函数需要计算指数和倒数相比，relu函数其实就是一个max(0,x)，计算代价小很多</li>
+<li>减轻梯度消失问题</li>
+<li>稀疏性，relu函数在输入小于0时是完全不激活的，因此可以获得一个更低的激活率</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">TODU</div></div><div class="fold">
+<ul>
+<li>TODU</li>
+</ul>
+
+</div></div>
+</li>
+</ol>
+<h1 id="NLP"><a href="#NLP" class="headerlink" title="NLP"></a>NLP</h1><ol>
+<li><div><div class="fold_hider"><div class="close hider_title">语言模型</div></div><div class="fold">
+<ul>
+<li>前面i个词出现的条件下，第i+1个词出现的概率</li>
+<li>$P(x_i, …, x_m)=\prod _{i=1}^mP(w_i|w_i, …, w_{i-1})$</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">Word2Vec、Embedding</div></div><div class="fold">
+<ul>
+<li>Word2Vec是从大量文本语料中无监督的方式学习语义知识的一种模型</li>
+<li>Embedding其实就是一个映射，将单词从原先所属的空间映射到新的多维空间中，也就是把原先词所在空间嵌入到一个新的空间中去</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">CBOW、Skip-Gram</div></div><div class="fold">
+<ul>
+<li>CBOW：给定上下文，来预测input word</li>
+<li>Skip-Gram：给定input word，来预测上下文</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">Skip-Gram_in_Word2Vec</div></div><div class="fold">
+<ul>
+<li>在skip_window*2的窗口范围内，随机选取num_skips个词，产生一系列（input_word, output_word）对</li>
+<li>(1, 10000)的向量与(10000, 300)的向量直接相乘将消耗大量的资源，转换为取出矩阵中对应向量值为1的索引行</li>
+<li>改进：<ul>
+<li>词组</li>
+<li>高频词抽样处理，抽样率根据出现频次计算</li>
+<li>负采样，每次训练一个样本仅更新一小部分的权重<ul>
+<li>对应输出为1以及少数输出为0的神经元</li>
+<li>negative words的选取，出现频次越高，越容易被选取</li>
+<li>实际代码中有一种unigram table，一亿维，单词索引重复出现，负采样概率越高，出现次数越多</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div></div>
+</li>
+<li><div><div class="fold_hider"><div class="close hider_title">TODU</div></div><div class="fold">
+<ul>
+<li>TODU</li>
+</ul>
+
+</div></div></li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Buy me a cup of coffee</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="zydarChen 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="zydarChen 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>zydarChen</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://www.zydarchen.top/20180402/16_offer_ML/" title="算法面试快问快答">https://www.zydarchen.top/20180402/16_offer_ML/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"><i class="fa fa-tag"></i> 面试</a>
+          
+            <a href="/tags/ML/" rel="tag"><i class="fa fa-tag"></i> ML</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20180116/15_understanding_stateful_LSTM/" rel="next" title="理解stateful LSTM">
+                <i class="fa fa-chevron-left"></i> 理解stateful LSTM
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20180412/17_sublime_using/" rel="prev" title="sublime使用指南">
+                sublime使用指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div style="text-align:left;">
+        <button class="btn-switch-comments" id="load-livere" onclick="livere.load();">没有GitHub？切换LiveRe评论</button>
+      </div>
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTk1Mi82NTE3"></div>
+    </div>
+
+  
+
+  
+    <div class="comments" id="gitalk-container"></div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/dandan.jpg" alt="zydarChen">
+            
+              <p class="site-author-name" itemprop="name">zydarChen</p>
+              <p class="site-description motion-element" itemprop="description">平淡无奇、追海贼、爱艺青的写代码少年</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/zydarchen" title="GitHub &rarr; https://github.com/zydarchen" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:zydarchen@outlook.com" title="E-Mail &rarr; mailto:zydarchen@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/images/wechat.jpg" title="WeChat &rarr; /images/wechat.jpg"><i class="fa fa-fw fa-wechat"></i>WeChat</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#机器学习基本概念"><span class="nav-number">1.</span> <span class="nav-text">机器学习基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LR"><span class="nav-number">2.</span> <span class="nav-text">LR</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SVM"><span class="nav-number">3.</span> <span class="nav-text">SVM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#K-Means"><span class="nav-number">4.</span> <span class="nav-text">K-Means</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#决策树"><span class="nav-number">5.</span> <span class="nav-text">决策树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#随机森林"><span class="nav-number">6.</span> <span class="nav-text">随机森林</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集成学习"><span class="nav-number">7.</span> <span class="nav-text">集成学习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ARIMA"><span class="nav-number">8.</span> <span class="nav-text">ARIMA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#梯度下降"><span class="nav-number">9.</span> <span class="nav-text">梯度下降</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LSTM"><span class="nav-number">10.</span> <span class="nav-text">LSTM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CNN"><span class="nav-number">11.</span> <span class="nav-text">CNN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NLP"><span class="nav-number">12.</span> <span class="nav-text">NLP</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zydarChen</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">158k</span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" rel="external nofollow" href="https://pages.coding.me">Coding Pages</a> | <a target="_blank" href="https://pages.github.com">GitHub Pages</a></div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      本站访客数： 
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+  
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.5.0"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      var livere = {
+        load : function livere() {
+          window.livereOptions = {
+            refer: '20180402/16_offer_ML/'
+          };
+          (function(d, s) {
+            var j, e = d.getElementsByTagName(s)[0];
+            if (typeof LivereTower === 'function') { return; }
+            j = d.createElement(s);
+            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+            j.async = true;
+            e.parentNode.insertBefore(j, e);
+          })(document, 'script');
+        $('#load-livere').remove();
+        }
+      }
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+  
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+  
+  
+  <script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+  <script>
+    var gitalk = new Gitalk({
+      clientID: '023640644ec61c874e3f',
+      clientSecret: '4b561e00537dcfaa60a4170b4d40858b6c4cb4d3',
+      repo: 'zydarChen.github.io',
+      owner: 'zydarChen',
+      admin: ['zydarChen'],
+      id: md5(location.pathname),
+      
+        language: 'zh-CN',
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  </script>
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "7tHKvbVfLE3KInkniGVHEDUS-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "7tHKvbVfLE3KInkniGVHEDUS-gzGzoHsz",
+                'X-LC-Key': "mwistCWddM7g034DSjjvEjQJ",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.5.0"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.5.0"></script>
+
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+          if(result)$(this).text('复制成功')
+          else $(this).text('复制失败')
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+  
+</body>
+</html>
