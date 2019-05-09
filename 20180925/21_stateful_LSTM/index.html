@@ -139,13 +139,13 @@
 <meta property="og:site_name" content="沐雨浥尘">
 <meta property="og:description" content="Keras LSTM的stateful非常容易用错，前段时间研究了一下，记记笔记~如有错误，欢迎评论指出~">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://pic.zydarchen.top/21_stateful.png">
-<meta property="og:image" content="https://pic.zydarchen.top/21_batch_size.png">
-<meta property="og:updated_time" content="2019-04-18T10:37:14.937Z">
+<meta property="og:image" content="https://image.zydarchen.top/image/21_stateful.png">
+<meta property="og:image" content="https://image.zydarchen.top/image/21_batch_size.png">
+<meta property="og:updated_time" content="2019-05-09T08:58:27.005Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解Keras LSTM的stateful">
 <meta name="twitter:description" content="Keras LSTM的stateful非常容易用错，前段时间研究了一下，记记笔记~如有错误，欢迎评论指出~">
-<meta name="twitter:image" content="https://pic.zydarchen.top/21_stateful.png">
+<meta name="twitter:image" content="https://image.zydarchen.top/image/21_stateful.png">
 
 
 
@@ -492,7 +492,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-18 18:37:14" itemprop="dateModified" datetime="2019-04-18T18:37:14+08:00">2019-04-18</time>
+                <time title="修改时间：2019-05-09 16:58:27" itemprop="dateModified" datetime="2019-05-09T16:58:27+08:00">2019-05-09</time>
               
             
           </span>
@@ -583,7 +583,7 @@
 <li>在RNN层中设置<code>stateful = True</code></li>
 <li>在调用<code>fit()</code>时指定<code>shuffle = False</code></li>
 </ul>
-<p>有点绕，我给翻译翻译<br><img src="https://pic.zydarchen.top/21_stateful.png" alt=""></p>
+<p>有点绕，我给翻译翻译<br><img src="https://image.zydarchen.top/image/21_stateful.png" alt=""></p>
 <ul>
 <li>假设Timestep=5，batch_size=2</li>
 <li>X1<code>和</code>X2就是连续的两个批次，X2[i]是X1[i]的后续序列，也就是说，<code>床前明月光</code>后面是<code>疑是地上霜</code></li>
@@ -654,7 +654,7 @@
 <li><code>tsteps=2, lahead=2, batch_size=2</code>，在上次实验的基础上，batch_size调整为2，stateful似乎好了一点点</li>
 <li><code>tsteps=2, lahead=1, batch_size=2</code>，与实验1对照，stateful似乎变差了很多，为什么呢？因为lahead不等于batch_size时，LSTM状态没有传递</li>
 </ol>
-<p>在<strong>本例</strong>中，需要保证<code>lahead = batch_size</code>，才能保证stateful正确传递状态，为什么呢？请看图~<br><img src="https://pic.zydarchen.top/21_batch_size.png" alt=""><br>明白了吧~</p>
+<p>在<strong>本例</strong>中，需要保证<code>lahead = batch_size</code>，才能保证stateful正确传递状态，为什么呢？请看图~<br><img src="https://image.zydarchen.top/image/21_batch_size.png" alt=""><br>明白了吧~</p>
 <h2 id="非官方FAQ"><a href="#非官方FAQ" class="headerlink" title="非官方FAQ"></a>非官方FAQ</h2><ul>
 <li>LSTM学习哪段序列的关系？<br>Timestep内的序列关系</li>
 <li>Jason的博文<a href="https://machinelearningmastery.com/understanding-stateful-lstm-recurrent-neural-networks-python-keras/" target="_blank" rel="noopener">Understanding Stateful LSTM Recurrent Neural Networks in Python with Keras</a>为什么说如果所有sample一个batch，则LSTM能很好地考虑上下文信息<br>仔细看他代码，偷偷把epoch调成5000了，效果当然好（被坑过）…而且他的例子太简单了，timestep=1，还算个锤子LSTM</li>

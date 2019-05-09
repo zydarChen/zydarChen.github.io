@@ -139,14 +139,14 @@
 <meta property="og:site_name" content="沐雨浥尘">
 <meta property="og:description" content="上一篇如何在GitHub、GitLab、Gitee、Coding上部署Hexo折腾了一番后发现，GitLab的访问速度还是不尽人意，而最近（2019.04）GitHub反而更好了，coding也挺快了，但由于在博客中会有一些短视频打开速度超级慢（出于某些原因，不想放B站），所以又折腾了CDN加速…">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://pic.zydarchen.top/27_cover.jpg">
-<meta property="og:image" content="https://pic.zydarchen.top/27_jiexi.png">
-<meta property="og:image" content="https://pic.zydarchen.top/27_ping.png">
-<meta property="og:updated_time" content="2019-05-08T08:43:51.533Z">
+<meta property="og:image" content="https://image.zydarchen.top/image/27_cover.jpg">
+<meta property="og:image" content="https://image.zydarchen.top/image/27_jiexi.png">
+<meta property="og:image" content="https://image.zydarchen.top/image/27_ping.png">
+<meta property="og:updated_time" content="2019-05-09T08:58:41.918Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用CDN加速你的博客">
 <meta name="twitter:description" content="上一篇如何在GitHub、GitLab、Gitee、Coding上部署Hexo折腾了一番后发现，GitLab的访问速度还是不尽人意，而最近（2019.04）GitHub反而更好了，coding也挺快了，但由于在博客中会有一些短视频打开速度超级慢（出于某些原因，不想放B站），所以又折腾了CDN加速…">
-<meta name="twitter:image" content="https://pic.zydarchen.top/27_cover.jpg">
+<meta name="twitter:image" content="https://image.zydarchen.top/image/27_cover.jpg">
 
 
 
@@ -496,7 +496,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-08 16:43:51" itemprop="dateModified" datetime="2019-05-08T16:43:51+08:00">2019-05-08</time>
+                <time title="修改时间：2019-05-09 16:58:41" itemprop="dateModified" datetime="2019-05-09T16:58:41+08:00">2019-05-09</time>
               
             
           </span>
@@ -579,7 +579,7 @@
 </ul>
 <p>对于个人网站来说<del>应该</del>绰绰有余</p>
 <p>实际使用下来，腾讯云太不稳定了…最终用的七牛云</p>
-<h1 id="用七牛云CDN加速你的博客"><a href="#用七牛云CDN加速你的博客" class="headerlink" title="用七牛云CDN加速你的博客"></a>用七牛云CDN加速你的博客</h1><p>先看效果，祖国大好河山一片绿。没加速之前是GitLab，最近这段时间GitLab确实不行啊，GitHub反而好很多。<br><img src="https://pic.zydarchen.top/27_cover.jpg" alt=""></p>
+<h1 id="用七牛云CDN加速你的博客"><a href="#用七牛云CDN加速你的博客" class="headerlink" title="用七牛云CDN加速你的博客"></a>用七牛云CDN加速你的博客</h1><p>先看效果，祖国大好河山一片绿。没加速之前是GitLab，最近这段时间GitLab确实不行啊，GitHub反而好很多。<br><img src="https://image.zydarchen.top/image/27_cover.jpg" alt=""></p>
 <ol>
 <li>注册<a href="https://portal.qiniu.com/signup?code=3liwfwr7z4eoi" target="_blank" rel="noopener">七牛云</a>（不介意的话，用一下我的邀请链接）</li>
 <li>添加<a href="https://portal.qiniu.com/cdn/domain/create" target="_blank" rel="noopener">融合CDN</a><ul>
@@ -592,11 +592,11 @@
 </ul>
 </li>
 <li><p>成功创建之后得到一个CNAME，将其添加到你域名的默认解析中，并暂停原有的默认解析。这里我国外解析还是没变，国外选路到GitHub Pages，国内默认到七牛云CDN</p>
-<p><img src="https://pic.zydarchen.top/27_jiexi.png" alt=""></p>
+<p><img src="https://image.zydarchen.top/image/27_jiexi.png" alt=""></p>
 </li>
 <li>由于在七牛云上已经做了一次SSL证书认证，需要把原有的证书认证暂停或者删除（这里被坑了好久）<br>记录类型：TXT<br>主机记录：_dnsauth<br>记录值：201902180000005****lif</li>
 <li><p>等待域名解析生效即可，看一下效果，起飞</p>
-<p><img src="https://pic.zydarchen.top/27_ping.png" alt=""></p>
+<p><img src="https://image.zydarchen.top/image/27_ping.png" alt=""></p>
 </li>
 <li>最后需要注意一点，由于CDN的存在，可能导致更新文章之后网站没有实时更新，这个时候在<a href="https://portal.qiniu.com/cdn/refresh-prefetch" target="_blank" rel="noopener">七牛云</a>上刷新一下缓存即可</li>
 </ol>

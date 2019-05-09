@@ -139,13 +139,13 @@
 <meta property="og:site_name" content="沐雨浥尘">
 <meta property="og:description" content="Git基本使用与备忘录">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://pic.zydarchen.top/11_git.png">
-<meta property="og:image" content="https://pic.zydarchen.top/11_git_flow.png">
-<meta property="og:updated_time" content="2019-04-18T10:34:57.482Z">
+<meta property="og:image" content="https://image.zydarchen.top/image/11_git.png">
+<meta property="og:image" content="https://image.zydarchen.top/image/11_git_flow.png">
+<meta property="og:updated_time" content="2019-05-09T08:58:38.501Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git安装与基本使用">
 <meta name="twitter:description" content="Git基本使用与备忘录">
-<meta name="twitter:image" content="https://pic.zydarchen.top/11_git.png">
+<meta name="twitter:image" content="https://image.zydarchen.top/image/11_git.png">
 
 
 
@@ -492,7 +492,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-18 18:34:57" itemprop="dateModified" datetime="2019-04-18T18:34:57+08:00">2019-04-18</time>
+                <time title="修改时间：2019-05-09 16:58:38" itemprop="dateModified" datetime="2019-05-09T16:58:38+08:00">2019-05-09</time>
               
             
           </span>
@@ -662,10 +662,10 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/scut-githuber/os-util.git <span class="comment"># clone repository到本地</span></span><br><span class="line"><span class="built_in">cd</span> gitDir</span><br><span class="line">git init <span class="comment"># 初始化空的Git仓库repository</span></span><br><span class="line">git add filename <span class="comment"># 将文件添加到repository</span></span><br><span class="line">git add -A <span class="comment"># 添加所有文件到repository</span></span><br><span class="line">git commit -m <span class="string">"wrote a readme file"</span> <span class="comment"># 提交并写提交说明</span></span><br><span class="line">git status <span class="comment"># 查看已修改文件</span></span><br><span class="line">git diff filename <span class="comment"># 查看filename被修改的内容</span></span><br><span class="line">git <span class="built_in">log</span> [--pretty=oneline]<span class="comment"># 查看提交日志</span></span><br><span class="line">git reset --hard HEAD^ <span class="comment"># 滚回上一版本</span></span><br><span class="line">git reset --hard 3628164 <span class="comment"># 指定ID回滚或者重做，`3628164`是commit id，git自动补全</span></span><br><span class="line">git reflog <span class="comment"># 查看命令历史，可以查看各个版本的commit id</span></span><br><span class="line">git checkout -- name <span class="comment"># 让这个文件回到最近一次git commit或git add时的状态。</span></span><br><span class="line">git reset HEAD filename <span class="comment"># 将filename从暂存区退回工作区</span></span><br></pre></td></tr></table></figure>
 <h2 id="工作区和暂存区"><a href="#工作区和暂存区" class="headerlink" title="工作区和暂存区"></a>工作区和暂存区</h2><ul>
 <li>工作区:工作目录，如<code>gitDir</code></li>
-<li>版本库：工作区中的隐藏目录<code>.git</code><br><img src="https://pic.zydarchen.top/11_git.png" alt="工作区与版本库"></li>
+<li>版本库：工作区中的隐藏目录<code>.git</code><br><img src="https://image.zydarchen.top/image/11_git.png" alt="工作区与版本库"></li>
 </ul>
 <p>第一步是用<code>git add</code>把文件添加进去，实际上就是把文件修改添加到暂存区；<br>第二步是用<code>git commit</code>提交更改，实际上就是把暂存区的所有内容提交到当前分支。</p>
-<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p><img src="https://pic.zydarchen.top/11_git_flow.png" alt="git流程图"></p>
+<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p><img src="https://image.zydarchen.top/image/11_git_flow.png" alt="git流程图"></p>
 <ul>
 <li><p>初始在工作目录中添加’test.py’文件，文件处于’untracked’状态：红色的’??’</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git status -s</span><br><span class="line">?? test.py</span><br></pre></td></tr></table></figure>
